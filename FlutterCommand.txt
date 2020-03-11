@@ -1,0 +1,11 @@
+Run flutter:
+    flutter run;
+
+Check emulator:
+    flutter emulators;
+
+Run Emulator:
+    flutter emulators --launch <emulator name>;
+
+Clean project:
+    flutter clean;
