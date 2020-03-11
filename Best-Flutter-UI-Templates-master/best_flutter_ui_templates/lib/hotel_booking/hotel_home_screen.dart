@@ -52,30 +52,19 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                hoverColor: Colors.transparent,
+                hoverColor: Colors.white,
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
                 child: Column(
                   children: <Widget>[
-                    getAppBarUI(),
                     Expanded(
                       child: NestedScrollView(
                         controller: _scrollController,
                         headerSliverBuilder:
                             (BuildContext context, bool innerBoxIsScrolled) {
                           return <Widget>[
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                return Column(
-                                  children: <Widget>[
-                                    getSearchBarUI(),
-                                    getTimeDateUI(),
-                                  ],
-                                );
-                              }, childCount: 1),
-                            ),
+                            
                             SliverPersistentHeader(
                               pinned: true,
                               floating: true,

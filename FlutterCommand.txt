@@ -9,3 +9,6 @@ Run Emulator:
 
 Clean project:
     flutter clean;
+
+Check for flutter requirements: (it will tell you what your system needs if missing requirements)
+    flutter doctor
