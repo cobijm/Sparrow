@@ -8,4 +8,4 @@ Run Emulator:
     flutter emulators --launch <emulator name>;
 
 Clean project:
-    flutter clean;
+    flutter clean;push 
