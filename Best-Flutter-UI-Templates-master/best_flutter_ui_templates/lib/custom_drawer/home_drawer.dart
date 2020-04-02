@@ -34,23 +34,23 @@ class _HomeDrawerState extends State<HomeDrawer> {
       ),
       DrawerList(
         index: DrawerIndex.Help,
-        labelName: 'Help',
+        labelName: 'Contact Us',
         isAssetsImage: true,
         imageName: 'assets/images/supportIcon.png',
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
-        labelName: 'FeedBack',
+        labelName: 'Change Password',
         icon: Icon(Icons.help),
       ),
       DrawerList(
         index: DrawerIndex.Invite,
-        labelName: 'Invite Friend',
+        labelName: 'Adjust Screen',
         icon: Icon(Icons.group),
       ),
       DrawerList(
         index: DrawerIndex.Share,
-        labelName: 'Rate the app',
+        labelName: 'Application Settings',
         icon: Icon(Icons.share),
       ),
       DrawerList(
