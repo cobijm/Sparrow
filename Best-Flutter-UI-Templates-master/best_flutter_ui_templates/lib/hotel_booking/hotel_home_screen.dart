@@ -46,77 +46,77 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
       data: HotelAppTheme.buildLightTheme(),
       child: Container(
         child: Scaffold(
-          body: Stack(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Column(
-                  children: <Widget>[
-                    getAppBarUI(),
-                    Expanded(
-                      child: NestedScrollView(
-                        controller: _scrollController,
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-                          return <Widget>[
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                return Column(
-                                  children: <Widget>[
-                                    getSearchBarUI(),
-                                    getTimeDateUI(),
-                                  ],
-                                );
-                              }, childCount: 1),
-                            ),
-                            SliverPersistentHeader(
-                              pinned: true,
-                              floating: true,
-                              delegate: ContestTabHeader(
-                                getFilterBarUI(),
-                              ),
-                            ),
-                          ];
-                        },
-                        body: Container(
-                          color:
-                              HotelAppTheme.buildLightTheme().backgroundColor,
-                          child: ListView.builder(
-                            itemCount: hotelList.length,
-                            padding: const EdgeInsets.only(top: 8),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count =
-                                  hotelList.length > 10 ? 10 : hotelList.length;
-                              final Animation<double> animation =
-                                  Tween<double>(begin: 0.0, end: 1.0).animate(
-                                      CurvedAnimation(
-                                          parent: animationController,
-                                          curve: Interval(
-                                              (1 / count) * index, 1.0,
-                                              curve: Curves.fastOutSlowIn)));
-                              animationController.forward();
-                              return HotelListView(
-                                callback: () {},
-                                hotelData: hotelList[index],
-                                animation: animation,
-                                animationController: animationController,
-                              );
-                            },
-                          ),
+              Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      FlatButton(
+                        onPressed: () {},
+                        child: Icon(
+                          Icons.play_arrow,
+                          size: 200.0,
                         ),
                       ),
-                    )
-                  ],
+                      FlatButton(
+                        onPressed: () {},
+                        child: Icon(
+                          Icons.pause,
+                          size: 200.0,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: () {},
+                        child: Icon(
+                          Icons.stop,
+                          size: 200.0,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              Container(
+                margin: EdgeInsets.fromLTRB(20.0, 0, 20.0, 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width: 50.0,
+                      height: 50.0,
+                      child: new RawMaterialButton(
+                        shape: new CircleBorder(),
+                        elevation: 0.0,
+                        child: Icon(
+                          Icons.music_note,
+                          color: Colors.blue,
+                          size: 50,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                    Container(
+                      width: 50.0,
+                      height: 50.0,
+                      child: new RawMaterialButton(
+                        shape: new CircleBorder(),
+                        elevation: 0.0,
+                        child: Icon(
+                          Icons.photo_camera,
+                          color: Colors.black,
+                          size: 50,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
