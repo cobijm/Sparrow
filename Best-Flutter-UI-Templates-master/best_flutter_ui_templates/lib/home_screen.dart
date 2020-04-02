@@ -152,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   borderRadius:
                       BorderRadius.circular(AppBar().preferredSize.height),
                   child: Icon(
-                    multiple ? Icons.view_agenda : Icons.dashboard,
+                    multiple ? Icons.dashboard : Icons.view_agenda,
                     color: AppTheme.dark_grey,
                   ),
                   onTap: () {
