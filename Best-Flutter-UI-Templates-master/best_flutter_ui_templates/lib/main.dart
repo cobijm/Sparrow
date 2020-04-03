@@ -2,7 +2,11 @@ import 'dart:io';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'loginpage_classes/login_page.dart';
 import 'navigation_home_screen.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +33,7 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: NavigationHomeScreen(),
+      home: LoginPage(),
     );
   }
 }

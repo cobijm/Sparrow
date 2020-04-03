@@ -1,16 +1,17 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
+import 'package:best_flutter_ui_templates/model/modelist.dart';
 import 'package:flutter/material.dart';
-import 'model/homelist.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key}) : super(key: key);
+
+class ModeSelectionScreen extends StatefulWidget {
+  const ModeSelectionScreen({Key key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _ModeSelectionScreenState createState() => _ModeSelectionScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  List<HomeList> homeList = HomeList.homeList;
+class _ModeSelectionScreenState extends State<ModeSelectionScreen> with TickerProviderStateMixin {
+  List<ModeList> modeList = ModeList.modeList;
   AnimationController animationController;
   bool multiple = true;
 
@@ -63,9 +64,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.vertical,
                             children: List<Widget>.generate(
-                              homeList.length,
+                              modeList.length,
                               (int index) {
-                                final int count = homeList.length;
+                                final int count = modeList.length;
                                 final Animation<double> animation =
                                     Tween<double>(begin: 0.0, end: 1.0).animate(
                                   CurvedAnimation(
@@ -75,16 +76,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   ),
                                 );
                                 animationController.forward();
-                                return HomeListView(
+                                return ModeListView(
                                   animation: animation,
                                   animationController: animationController,
-                                  listData: homeList[index],
+                                  listData: modeList[index],
                                   callBack: () {
                                     Navigator.push<dynamic>(
                                       context,
                                       MaterialPageRoute<dynamic>(
                                         builder: (BuildContext context) =>
-                                            homeList[index].navigateScreen,
+                                            modeList[index].navigateScreen,
                                       ),
                                     );
                                   },
@@ -170,8 +171,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 }
 
-class HomeListView extends StatelessWidget {
-  const HomeListView(
+class ModeListView extends StatelessWidget {
+  const ModeListView(
       {Key key,
       this.listData,
       this.callBack,
@@ -179,7 +180,7 @@ class HomeListView extends StatelessWidget {
       this.animation})
       : super(key: key);
 
-  final HomeList listData;
+  final ModeList listData;
   final VoidCallback callBack;
   final AnimationController animationController;
   final Animation<dynamic> animation;
