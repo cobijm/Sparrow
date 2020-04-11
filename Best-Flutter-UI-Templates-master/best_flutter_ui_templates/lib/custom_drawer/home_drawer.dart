@@ -28,29 +28,34 @@ class _HomeDrawerState extends State<HomeDrawer> {
   void setdDrawerListArray() {
     drawerList = <DrawerList>[
       DrawerList(
+        index: DrawerIndex.MODE,
+        labelName: 'Mode',
+        icon: Icon(Icons.home),
+      ),
+      DrawerList(
         index: DrawerIndex.HOME,
         labelName: 'Home',
         icon: Icon(Icons.home),
       ),
       DrawerList(
         index: DrawerIndex.Help,
-        labelName: 'Contact Us',
+        labelName: 'Help',
         isAssetsImage: true,
         imageName: 'assets/images/supportIcon.png',
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
-        labelName: 'Change Password',
+        labelName: 'FeedBack',
         icon: Icon(Icons.help),
       ),
       DrawerList(
         index: DrawerIndex.Invite,
-        labelName: 'Adjust Screen',
+        labelName: 'Invite Friend',
         icon: Icon(Icons.group),
       ),
       DrawerList(
         index: DrawerIndex.Share,
-        labelName: 'Application Settings',
+        labelName: 'Rate the app',
         icon: Icon(Icons.share),
       ),
       DrawerList(
@@ -287,6 +292,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
 }
 
 enum DrawerIndex {
+  RECORD,
+  MODE,
   HOME,
   FeedBack,
   Help,
