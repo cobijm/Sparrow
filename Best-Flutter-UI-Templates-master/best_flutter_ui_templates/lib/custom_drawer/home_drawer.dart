@@ -28,6 +28,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
   void setdDrawerListArray() {
     drawerList = <DrawerList>[
       DrawerList(
+        index: DrawerIndex.MODE,
+        labelName: 'Mode',
+        icon: Icon(Icons.home),
+      ),
+      DrawerList(
         index: DrawerIndex.HOME,
         labelName: 'Home',
         icon: Icon(Icons.home),
@@ -287,6 +292,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
 }
 
 enum DrawerIndex {
+  RECORD,
+  MODE,
   HOME,
   FeedBack,
   Help,
