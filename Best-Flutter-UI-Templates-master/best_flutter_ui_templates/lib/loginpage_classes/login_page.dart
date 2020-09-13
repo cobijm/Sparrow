@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -366,7 +368,12 @@ class _LoginPageState extends State<LoginPage>
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () => navigateToHomePage(context)),
+                    onPressed: () async {
+                      var password = loginPasswordController.text;
+                      var email = loginEmailController.text;
+
+                      var response = fetchLogin(email, password);
+                    }),
               ),
             ],
           ),
@@ -702,5 +709,15 @@ class _LoginPageState extends State<LoginPage>
     setState(() {
       _obscureTextSignupConfirm = !_obscureTextSignupConfirm;
     });
+  }
+
+  Future fetchLogin(String email, String password) async {
+    String loginUrl = 'https://postman-echo.com/post';
+    final response = await http.post(loginUrl,
+        headers: {"Accept": "application/json"},
+        body: {"email": email, "password": password});
+
+    var convertedDataToJson = jsonDecode(response.body);
+    return convertedDataToJson;
   }
 }
