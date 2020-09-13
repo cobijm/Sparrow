@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+// import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:best_flutter_ui_templates/loginpage_classes/theme.dart' as Theme;
 import 'package:best_flutter_ui_templates/loginpage_classes/bubble_indication_painter.dart';
 
 import '../navigation_home_screen.dart';
 
-void initiateFacebookLogin() async {
-    var facebookLogin = FacebookLogin();
-    var facebookLoginResult =
-        await facebookLogin.logInWithReadPermissions(['email']);
-     switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.error:
-        print("Error");
-        onLoginStatusChanged(false);
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        print("CancelledByUser");
-        onLoginStatusChanged(false);
-        break;
-      case FacebookLoginStatus.loggedIn:
-        print("LoggedIn");
-        onLoginStatusChanged(true);
-        break;
-    }
-  }
+// void initiateFacebookLogin() async {
+//     var facebookLogin = FacebookLogin();
+//     var facebookLoginResult =
+//         await facebookLogin.logInWithReadPermissions(['email']);
+//      switch (facebookLoginResult.status) {
+//       case FacebookLoginStatus.error:
+//         print("Error");
+//         onLoginStatusChanged(false);
+//         break;
+//       case FacebookLoginStatus.cancelledByUser:
+//         print("CancelledByUser");
+//         onLoginStatusChanged(false);
+//         break;
+//       case FacebookLoginStatus.loggedIn:
+//         print("LoggedIn");
+//         onLoginStatusChanged(true);
+//         break;
+//     }
+//   }
 
-bool isLoggedIn = false;
+// bool isLoggedIn = false;
 
-  void onLoginStatusChanged(bool login) {
-          isLoggedIn = login;
-      }
+//   void onLoginStatusChanged(bool login) {
+//           isLoggedIn = login;
+//       }
     
 
 
@@ -438,7 +438,7 @@ class _LoginPageState extends State<LoginPage>
               Padding(
                 padding: EdgeInsets.only(top: 10.0, right: 40.0),
                 child: GestureDetector(
-                  onTap: () => initiateFacebookLogin(),
+                 // onTap: () => initiateFacebookLogin(),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: new BoxDecoration(
