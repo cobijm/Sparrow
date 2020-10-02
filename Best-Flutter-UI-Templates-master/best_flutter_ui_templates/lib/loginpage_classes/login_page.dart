@@ -10,6 +10,7 @@ import 'package:best_flutter_ui_templates/loginpage_classes/bubble_indication_pa
 
 import '../navigation_home_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 void initiateFacebookLogin() async {
   var facebookLogin = FacebookLogin();
@@ -372,7 +373,7 @@ class _LoginPageState extends State<LoginPage>
                       var password = loginPasswordController.text;
                       var email = loginEmailController.text;
 
-                      var response = fetchLogin(email, password);
+                      fetchLogin(email, password);
                     }),
               ),
             ],
@@ -711,13 +712,21 @@ class _LoginPageState extends State<LoginPage>
     });
   }
 
-  Future fetchLogin(String email, String password) async {
-    String loginUrl = 'https://postman-echo.com/post';
-    final response = await http.post(loginUrl,
-        headers: {"Accept": "application/json"},
-        body: {"email": email, "password": password});
+  Future fetchLogin(String username, String password) async {
+    String loginUrl =
+        'https://zazgdz4b1l.execute-api.us-east-2.amazonaws.com/default/login';
+    username = username.trim();
+    password = password.trim();
+
+    final response = await http.post(loginUrl, body: );
 
     var convertedDataToJson = jsonDecode(response.body);
-    return convertedDataToJson;
+    print(convertedDataToJson);
+    var code = response.statusCode;
+    if (code == 200) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+    }
+    return response.statusCode;
   }
 }
