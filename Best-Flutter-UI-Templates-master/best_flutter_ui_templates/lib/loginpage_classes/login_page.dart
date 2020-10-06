@@ -1,39 +1,41 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:best_flutter_ui_templates/loginpage_classes/theme.dart' as Theme;
+import 'package:best_flutter_ui_templates/loginpage_classes/theme.dart'
+    as Theme;
 import 'package:best_flutter_ui_templates/loginpage_classes/bubble_indication_painter.dart';
 
 import '../navigation_home_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 // void initiateFacebookLogin() async {
-//     var facebookLogin = FacebookLogin();
-//     var facebookLoginResult =
-//         await facebookLogin.logInWithReadPermissions(['email']);
-//      switch (facebookLoginResult.status) {
-//       case FacebookLoginStatus.error:
-//         print("Error");
-//         onLoginStatusChanged(false);
-//         break;
-//       case FacebookLoginStatus.cancelledByUser:
-//         print("CancelledByUser");
-//         onLoginStatusChanged(false);
-//         break;
-//       case FacebookLoginStatus.loggedIn:
-//         print("LoggedIn");
-//         onLoginStatusChanged(true);
-//         break;
-//     }
+//   var facebookLogin = FacebookLogin();
+//   var facebookLoginResult = await facebookLogin.logIn(['email']);
+//   switch (facebookLoginResult.status) {
+//     case FacebookLoginStatus.error:
+//       print("Error");
+//       onLoginStatusChanged(false);
+//       break;
+//     case FacebookLoginStatus.cancelledByUser:
+//       print("CancelledByUser");
+//       onLoginStatusChanged(false);
+//       break;
+//     case FacebookLoginStatus.loggedIn:
+//       print("LoggedIn");
+//       onLoginStatusChanged(true);
+//       break;
 //   }
+// }
 
-// bool isLoggedIn = false;
+bool isLoggedIn = false;
 
-//   void onLoginStatusChanged(bool login) {
-//           isLoggedIn = login;
-//       }
-    
-
+void onLoginStatusChanged(bool login) {
+  isLoggedIn = login;
+}
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -44,7 +46,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final FocusNode myFocusNodeEmailLogin = FocusNode();
@@ -52,7 +53,8 @@ class _LoginPageState extends State<LoginPage>
 
   final FocusNode myFocusNodePassword = FocusNode();
   final FocusNode myFocusNodeEmail = FocusNode();
-  final FocusNode myFocusNodeName = FocusNode();
+  final FocusNode myFocusNodeFirstName = FocusNode();
+  final FocusNode myFocusNodeLastName = FocusNode();
 
   TextEditingController loginEmailController = new TextEditingController();
   TextEditingController loginPasswordController = new TextEditingController();
@@ -62,10 +64,10 @@ class _LoginPageState extends State<LoginPage>
   bool _obscureTextSignupConfirm = true;
 
   TextEditingController signupEmailController = new TextEditingController();
-  TextEditingController signupNameController = new TextEditingController();
+  TextEditingController signupFirstNameController = new TextEditingController();
   TextEditingController signupPasswordController = new TextEditingController();
-  TextEditingController signupConfirmPasswordController =
-      new TextEditingController();
+  TextEditingController signupLastNameController = new TextEditingController();
+//TextEditingController signupConfirmPasswordController = new TextEditingController();
 
   PageController _pageController;
 
@@ -81,70 +83,70 @@ class _LoginPageState extends State<LoginPage>
           overscroll.disallowGlow();
         },
         child: SingleChildScrollView(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height >= 775.0
-                    ? MediaQuery.of(context).size.height
-                    : 775.0,
-                decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [
-                        Theme.Colors.loginGradientStart,
-                        Theme.Colors.loginGradientEnd
-                      ],
-                      begin: const FractionalOffset(0.0, 0.0),
-                      end: const FractionalOffset(1.0, 1.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 75.0),
-                      child: new Image(
-                          width: 250.0,
-                          height: 191.0,
-                          fit: BoxFit.fill,
-                          image: new AssetImage('assets/images/logo.png')),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: _buildMenuBar(context),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (i) {
-                          if (i == 0) {
-                            setState(() {
-                              right = Colors.white;
-                              left = Colors.black;
-                            });
-                          } else if (i == 1) {
-                            setState(() {
-                              right = Colors.black;
-                              left = Colors.white;
-                            });
-                          }
-                        },
-                        children: <Widget>[
-                          new ConstrainedBox(
-                            constraints: const BoxConstraints.expand(),
-                            child: _buildSignIn(context),
-                          ),
-                          new ConstrainedBox(
-                            constraints: const BoxConstraints.expand(),
-                            child: _buildSignUp(context),
-                          ),
-                        ],
-                      ),
-                    ),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height >= 775.0
+                ? MediaQuery.of(context).size.height
+                : 775.0,
+            decoration: new BoxDecoration(
+              gradient: new LinearGradient(
+                  colors: [
+                    Theme.Colors.loginGradientStart,
+                    Theme.Colors.loginGradientEnd
                   ],
-                ),
-              ),
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(1.0, 1.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
             ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 75.0),
+                  child: new Image(
+                      width: 250.0,
+                      height: 191.0,
+                      fit: BoxFit.fill,
+                      image: new AssetImage('assets/images/logo.png')),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: _buildMenuBar(context),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: PageView(
+                    controller: _pageController,
+                    onPageChanged: (i) {
+                      if (i == 0) {
+                        setState(() {
+                          right = Colors.white;
+                          left = Colors.black;
+                        });
+                      } else if (i == 1) {
+                        setState(() {
+                          right = Colors.black;
+                          left = Colors.white;
+                        });
+                      }
+                    },
+                    children: <Widget>[
+                      new ConstrainedBox(
+                        constraints: const BoxConstraints.expand(),
+                        child: _buildSignIn(context),
+                      ),
+                      new ConstrainedBox(
+                        constraints: const BoxConstraints.expand(),
+                        child: _buildSignUp(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -153,7 +155,9 @@ class _LoginPageState extends State<LoginPage>
   void dispose() {
     myFocusNodePassword.dispose();
     myFocusNodeEmail.dispose();
-    myFocusNodeName.dispose();
+    myFocusNodeFirstName.dispose();
+    myFocusNodeLastName.dispose();
+
     _pageController?.dispose();
     super.dispose();
   }
@@ -236,9 +240,11 @@ class _LoginPageState extends State<LoginPage>
   }
 
   Widget _buildSignIn(BuildContext context) {
-      Future navigateToHomePage(context) async {
-     Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+    Future navigateToHomePage(context) async {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
     }
+
     return Container(
       padding: EdgeInsets.only(top: 23.0),
       child: Column(
@@ -366,8 +372,12 @@ class _LoginPageState extends State<LoginPage>
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () =>
-                        navigateToHomePage(context)),
+                    onPressed: () async {
+                      var password = loginPasswordController.text;
+                      var email = loginEmailController.text;
+
+                      fetchLogin(email, password);
+                    }),
               ),
             ],
           ),
@@ -383,93 +393,6 @@ class _LoginPageState extends State<LoginPage>
                       fontSize: 16.0,
                       fontFamily: "WorkSansMedium"),
                 )),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: new LinearGradient(
-                        colors: [
-                          Colors.white10,
-                          Colors.white,
-                        ],
-                        begin: const FractionalOffset(0.0, 0.0),
-                        end: const FractionalOffset(1.0, 1.0),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  width: 100.0,
-                  height: 1.0,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                  child: Text(
-                    "Or",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                        fontFamily: "WorkSansMedium"),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: new LinearGradient(
-                        colors: [
-                          Colors.white,
-                          Colors.white10,
-                        ],
-                        begin: const FractionalOffset(0.0, 0.0),
-                        end: const FractionalOffset(1.0, 1.0),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  width: 100.0,
-                  height: 1.0,
-                ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 10.0, right: 40.0),
-                child: GestureDetector(
-                 // onTap: () => initiateFacebookLogin(),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: new Icon(
-                      FontAwesomeIcons.facebookF,
-                      color: Color(0xFF0084ff),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: GestureDetector(
-                  onTap: () => showInSnackBar("Google button pressed"),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: new Icon(
-                      FontAwesomeIcons.google,
-                      color: Color(0xFF0084ff),
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),
@@ -500,8 +423,8 @@ class _LoginPageState extends State<LoginPage>
                         padding: EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
-                          focusNode: myFocusNodeName,
-                          controller: signupNameController,
+                          focusNode: myFocusNodeFirstName,
+                          controller: signupFirstNameController,
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           style: TextStyle(
@@ -514,12 +437,43 @@ class _LoginPageState extends State<LoginPage>
                               FontAwesomeIcons.user,
                               color: Colors.black,
                             ),
-                            hintText: "Name",
+                            hintText: "First Name",
                             hintStyle: TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 16.0),
                           ),
                         ),
                       ),
+                      Container(
+                        width: 250.0,
+                        height: 1.0,
+                        color: Colors.grey[400],
+                      ),
+                        Padding(
+                        padding: EdgeInsets.only(
+                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                        child: TextField(
+                          focusNode: myFocusNodeLastName,
+                          controller: signupLastNameController,
+                          keyboardType: TextInputType.text,
+                          textCapitalization: TextCapitalization.words,
+                          style: TextStyle(
+                              fontFamily: "WorkSansSemiBold",
+                              fontSize: 16.0,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              FontAwesomeIcons.user,
+                              color: Colors.black,
+                            ),
+                            hintText: "Last Name",
+                            hintStyle: TextStyle(
+                                fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+                          ),
+                        ),
+                      ),
+                     
+                     
                       Container(
                         width: 250.0,
                         height: 1.0,
@@ -591,38 +545,38 @@ class _LoginPageState extends State<LoginPage>
                         height: 1.0,
                         color: Colors.grey[400],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                        child: TextField(
-                          controller: signupConfirmPasswordController,
-                          obscureText: _obscureTextSignupConfirm,
-                          style: TextStyle(
-                              fontFamily: "WorkSansSemiBold",
-                              fontSize: 16.0,
-                              color: Colors.black),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              FontAwesomeIcons.lock,
-                              color: Colors.black,
-                            ),
-                            hintText: "Confirmation",
-                            hintStyle: TextStyle(
-                                fontFamily: "WorkSansSemiBold", fontSize: 16.0),
-                            suffixIcon: GestureDetector(
-                              onTap: _toggleSignupConfirm,
-                              child: Icon(
-                                _obscureTextSignupConfirm
-                                    ? FontAwesomeIcons.eye
-                                    : FontAwesomeIcons.eyeSlash,
-                                size: 15.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //       top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                      //   child: TextField(
+                      //     controller: signupConfirmPasswordController,
+                      //     obscureText: _obscureTextSignupConfirm,
+                      //     style: TextStyle(
+                      //         fontFamily: "WorkSansSemiBold",
+                      //         fontSize: 16.0,
+                      //         color: Colors.black),
+                      //     decoration: InputDecoration(
+                      //       border: InputBorder.none,
+                      //       icon: Icon(
+                      //         FontAwesomeIcons.lock,
+                      //         color: Colors.black,
+                      //       ),
+                      //       hintText: "Confirmation",
+                      //       hintStyle: TextStyle(
+                      //           fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+                      //       suffixIcon: GestureDetector(
+                      //         onTap: _toggleSignupConfirm,
+                      //         child: Icon(
+                      //           _obscureTextSignupConfirm
+                      //               ? FontAwesomeIcons.eye
+                      //               : FontAwesomeIcons.eyeSlash,
+                      //           size: 15.0,
+                      //           color: Colors.black,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -668,8 +622,17 @@ class _LoginPageState extends State<LoginPage>
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () =>
-                        showInSnackBar("SignUp button pressed")),
+                    onPressed: () async {
+                      var email = signupEmailController.text;
+                      var password = signupPasswordController.text;
+                      var firstName = signupFirstNameController.text;
+                      var lastName = signupLastNameController.text;
+
+                      fetchSignup(email, password,firstName,lastName);
+
+                      
+    
+                    }),
               ),
             ],
           ),
@@ -705,4 +668,100 @@ class _LoginPageState extends State<LoginPage>
       _obscureTextSignupConfirm = !_obscureTextSignupConfirm;
     });
   }
+
+  Future fetchSignup(String email, String password, String firstName, String lastName) async {
+    String signupUrl =
+        'https://zazgdz4b1l.execute-api.us-east-2.amazonaws.com/default/signup';
+    email = email.trim();
+    password = password.trim();
+    firstName = firstName.trim();
+    lastName = lastName.trim();
+
+    String json = '{"email":' + '"' + email + '"' + ', "password":' + '"' + password +'"'
+    + ', "firstName":' + '"' + firstName  + '"' +  ', "lastName":' + '"' +  lastName + '"'  +'}';
+
+    final response = await http.post(signupUrl, body: json);
+
+    var convertedDataToJson = jsonDecode(response.body);
+    print(convertedDataToJson);
+    var code = response.statusCode;
+    if (code == 200) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+    }
+    else
+    {
+            showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Sign Up Failed "),
+          content: new Text("*All information are required.\n*Email must be unique."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    }
+
+    return response.statusCode;
+  }
+
+
+
+
+  Future fetchLogin(String username, String password) async {
+    String loginUrl =
+        'https://zazgdz4b1l.execute-api.us-east-2.amazonaws.com/default/login';
+    username = username.trim();
+    password = password.trim();
+
+    String json = '{"email": "' + username + '", "password": "' + password +'"}';
+
+    final response = await http.post(loginUrl, body: json);
+
+    var convertedDataToJson = jsonDecode(response.body);
+    print(convertedDataToJson);
+    var code = response.statusCode;
+    if (code == 200) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+    }
+    else
+    {
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Sign In Failed"),
+          content: new Text("Incorrect Password or Email"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    }
+    return response.statusCode;
+  }
+
+
+
 }

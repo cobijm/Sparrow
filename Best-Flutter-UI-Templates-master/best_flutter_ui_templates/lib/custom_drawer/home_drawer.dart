@@ -1,5 +1,6 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:best_flutter_ui_templates/loginpage_classes/login_page.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -172,7 +173,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Icons.power_settings_new,
                   color: Colors.red,
                 ),
-                onTap: () {},
+                onTap: () {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => LoginPage()));
+
+
+                },
               ),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,
