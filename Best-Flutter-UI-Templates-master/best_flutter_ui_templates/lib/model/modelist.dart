@@ -1,6 +1,7 @@
 import 'package:best_flutter_ui_templates/record_buttons/navigation_record_screen.dart';
-import 'package:best_flutter_ui_templates/record_buttons/record_button_screen.dart';
 import '../checkrecord_screen.dart';
+import '../VideosScreen.dart';
+
 import 'package:flutter/widgets.dart';
 
 class ModeList {
@@ -19,12 +20,13 @@ class ModeList {
       navigateScreen: NavigationRecordScreen(),
     ),
     ModeList(
-      imagePath: 'assets/mode_pictures/checkRecords.png',
-      navigateScreen: CheckRecordScreen(),
+      imagePath: 'assets/mode_pictures/viewVideos.png',
+      navigateScreen: VideosScreen(),
     ),
     ModeList(
       imagePath: 'assets/mode_pictures/licenseLookup.png',
-     // navigateScreen: DesignCourseHomeScreen(),
+      navigateScreen: CheckRecordScreen(),
     ),
   ];
+
 }

@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 // }
 
 bool isLoggedIn = false;
+String globalEmail;
 
 void onLoginStatusChanged(bool login) {
   isLoggedIn = login;
@@ -105,8 +107,8 @@ class _LoginPageState extends State<LoginPage>
                 Padding(
                   padding: EdgeInsets.only(top: 75.0),
                   child: new Image(
-                      width: 250.0,
-                      height: 191.0,
+                      width: 190.0,
+                      height: 190.0,
                       fit: BoxFit.fill,
                       image: new AssetImage('assets/images/logo.png')),
                 ),
@@ -377,6 +379,7 @@ class _LoginPageState extends State<LoginPage>
                       var email = loginEmailController.text;
 
                       fetchLogin(email, password);
+
                     }),
               ),
             ],
@@ -629,8 +632,7 @@ class _LoginPageState extends State<LoginPage>
                       var lastName = signupLastNameController.text;
 
                       fetchSignup(email, password,firstName,lastName);
-
-                      
+                                            
     
                     }),
               ),
@@ -719,13 +721,14 @@ class _LoginPageState extends State<LoginPage>
 
 
 
-  Future fetchLogin(String username, String password) async {
+  Future fetchLogin(String email, String password) async {
     String loginUrl =
         'https://zazgdz4b1l.execute-api.us-east-2.amazonaws.com/default/login';
-    username = username.trim();
+    email = email.trim();
     password = password.trim();
 
-    String json = '{"email": "' + username + '", "password": "' + password +'"}';
+    String json = '{"email": "' + email + '", "password": "' + password +'"}';
+    globalEmail = email;
 
     final response = await http.post(loginUrl, body: json);
 
@@ -733,8 +736,9 @@ class _LoginPageState extends State<LoginPage>
     print(convertedDataToJson);
     var code = response.statusCode;
     if (code == 200) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
+
+       Navigator.push(context,
+           MaterialPageRoute(builder: (context) => NavigationHomeScreen()));
     }
     else
     {
@@ -759,8 +763,17 @@ class _LoginPageState extends State<LoginPage>
     );
 
     }
+    print("this is my respon.statuscode");
+    print(response.statusCode);
     return response.statusCode;
   }
+
+
+
+
+
+
+
 
 
 
